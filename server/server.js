@@ -111,16 +111,126 @@ const canciones = [
     { titulo: "I Won't Back Down", artista: "Tom Petty", descripcion: "Un himno de resiliencia de Tom Petty.", duracion: "2:58", url: "https://www.youtube.com/watch?v=nvlTJrNJ5lA" }
 ];
 
+*/
+/*
+const videoData = [
+    {
+        titulo: 'Bad Guy',
+        artista: 'Billie Eilish',
+        descripcion: 'Video musical de la canción "Bad Guy" de Billie Eilish.',
+        duracion: '3:26',
+        url: 'https://www.youtube.com/watch?v=DyDfgMOUjCI',
+        img: 'https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da840d24cffd620c5ca5bed05af5'
+    },
+    {
+        titulo: 'Gangnam Style',
+        artista: 'PSY',
+        descripcion: 'Video musical de la canción "Gangnam Style" de PSY.',
+        duracion: '4:13',
+        url: 'https://www.youtube.com/watch?v=9bZkp7q19f0',
+        img: 'https://i.scdn.co/image/ab67616d0000b2736cfc57e5358c5e39e79bccbd'
+    },
+    {
+        titulo: 'Shape of You',
+        artista: 'Ed Sheeran',
+        descripcion: 'Video musical de la canción "Shape of You" de Ed Sheeran.',
+        duracion: '4:24',
+        url: 'https://www.youtube.com/watch?v=JGwWNGJdvx8',
+        img: 'https://upload.wikimedia.org/wikipedia/en/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png'
+    },
+    {
+        titulo: 'Lean On',
+        artista: 'Major Lazer & DJ Snake (feat. MØ)',
+        descripcion: 'Video musical de la cancion "Lean On" de Major Lazer & DJ Snake con MØ.',
+        duracion: '2:59',
+        url: 'https://www.youtube.com/watch?v=YqeW9_5kURI',
+        img: 'https://i.scdn.co/image/ab67616d0000b273ee9a0c218034140fec55362ag'
+    },
+    {
+        titulo: 'Hello',
+        artista: 'Adele',
+        descripcion: 'Video musical de la canción "Hello" de Adele.',
+        duracion: '6:07',
+        url: 'https://www.youtube.com/watch?v=YQHsXMglC9A',
+        img: 'https://i.scdn.co/image/ab67616d0000b27323d302c1290685258a400ad0'
+    },
+    {
+        titulo: 'Bohemian Rhapsody',
+        artista: 'Queen',
+        descripcion: 'Video musical de la canción "Bohemian Rhapsody" de Queen.',
+        duracion: '6:00',
+        url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
+        img: 'https://i.scdn.co/image/ab67616d0000b27328581cfe196c266c132a9d62'
+    },
+    {
+        titulo: 'Uptown Funk',
+        artista: 'Mark Ronson ft. Bruno Mars',
+        descripcion: 'Video musical de la canción "Uptown Funk" de Mark Ronson y Bruno Mars.',
+        duracion: '4:31',
+        url: 'https://www.youtube.com/watch?v=OPf0YbXqDm0',
+        img: 'https://i.scdn.co/image/ab67616d0000b273146f0228683dc97769498290'
+    },
+    {
+        titulo: 'Despacito',
+        artista: 'Luis Fonsi ft. Daddy Yankee',
+        descripcion: 'Video musical de la canción "Despacito" de Luis Fonsi y Daddy Yankee.',
+        duracion: '4:42',
+        url: 'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
+        img: 'https://i.scdn.co/image/ab67616d0000b273a5971936e3b8d91f8b616b17'
+    },
+    {
+        titulo: 'See You Again',
+        artista: 'Wiz Khalifa ft. Charlie Puth',
+        descripcion: 'Video musical de la canción "See You Again" de Wiz Khalifa y Charlie Puth.',
+        duracion: '3:58',
+        url: 'https://www.youtube.com/watch?v=RgKAFK5djSk',
+        img: 'https://i.scdn.co/image/ab67616d0000b27375c9daf36578bdf30645492f'
+    },
+    {
+        titulo: 'Roar',
+        artista: 'Katy Perry',
+        descripcion: 'Video musical de la canción "Roar" de Katy Perry.',
+        duracion: '4:30',
+        url: 'https://www.youtube.com/watch?v=CevxZvSJLk8',
+        img: 'https://i.scdn.co/image/ab67616d0000b27371c06d9d1bb7309f4128a7bf'
+    },
+    {
+        titulo: 'Bailando',
+        artista: 'Enrique Iglesias ft. Gente de Zona y Descemer Bueno',
+        descripcion: 'Video musical de la canción "Bailando" de Enrique Iglesias con Gente de Zona y Descemer Bueno.',
+        duracion: '4:47',
+        url: 'https://www.youtube.com/watch?v=NUsoVlDFqZg',
+        img: 'https://i.scdn.co/image/ab67616d00001e020acb58771a9c899437cd20b8'
+    },
+    {
+        titulo: 'Sugar',
+        artista: 'Maroon 5',
+        descripcion: 'Video musical de la canción "Sugar" de Maroon 5.',
+        duracion: '5:02',
+        url: 'https://www.youtube.com/watch?v=09R8_2nJtjg',
+        img: 'https://i.scdn.co/image/ab67616d0000b2735430b6be862e01be82a50bc8'
+    },
+    {
+        titulo: 'Waka Waka (This Time for Africa)',
+        artista: 'Shakira',
+        descripcion: 'Video musical de la canción "Waka Waka (This Time for Africa)" de Shakira.',
+        duracion: '3:31',
+        url: 'https://www.youtube.com/watch?v=pRpeEdMmmQ0',
+        img: 'https://i.scdn.co/image/ab67616d00001e0209dddea4db9de5964c668c96'
+    }
+];
+*/
+/*
 const videosModel=require('./models/videos-model.js');
 
 async function insertarCanciones(){
     try{
-        await videosModel.insertMany(canciones);
+        await videosModel.insertMany(videoData);
     }catch(e){
         console.log(e);
     }
     console.log("insertados con exito");
 }
 
-insertarCanciones(); 
+insertarCanciones();
 */

@@ -17,6 +17,10 @@ const videoSchema = new mongoose.Schema({
     url:{
         type:String,
         require:true
+    },
+    img:{
+        type:String,
+        require:true
     }
 });
 
