@@ -3,7 +3,28 @@ const videoModel = require('../models/videos-model.js');
 const albumModel = require('../models/albums-model.js');
 const listaModel = require('../models/listas-model.js');
 
-const listasGetByAlbum = async(req=request,res=response)=>{
+const listasGetAll = async (req=require, res=response)=>{
+    try{
+        const listas = await listaModel.find();
+
+        if(!listas){
+            return res.status(404).json({ok:false,
+                msg: "No se encontro ninguna lista"
+            });
+        }
+
+        res.json({ok:true,
+            data: listas
+        })
+    }catch(e){
+        res.status(500).json({ok:false,
+            msg: 'Error, contacte administrador',
+            err: e
+        });
+    }
+}
+
+const listasGetByAlbum_Id = async(req=request,res=response)=>{
     const {album_id} = req.params // Se espera que el id en la ruta sea de un album
 
     try{
@@ -142,7 +163,8 @@ const listasDeleteVideo = async (req=request,res=response)=>{
 }
 
 module.exports={
-    listasGetByAlbum,
+    listasGetAll,
+    listasGetByAlbum_Id,
     listasAddVideo,
     listasDeleteVideo
 }

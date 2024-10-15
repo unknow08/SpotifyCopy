@@ -9,6 +9,10 @@ const videoSchema = new mongoose.Schema({
         type:String,
         require:true
     },
+    genero:{
+        type:String,
+        require:true
+    },
     descripcion:{
         type:String,
         require:true

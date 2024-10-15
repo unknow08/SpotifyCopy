@@ -2,11 +2,19 @@ const {request,response} = require('express');
 const videoModel = require('../models/videos-model.js');
 
 const videosGetAll = async (req=request,res=response) =>{
-    const videos = await videoModel.find();
+    try{
+        const videos = await videoModel.find();
 
-    res.json({
-        data: videos
-    });
+        res.json({ok:true,
+            data: videos
+        });
+    }catch(e){
+        console.log(e);
+        res.status(500).json({ok:false,
+            msg:"Error, contacte al administrador",
+            error: e
+        })
+    }
 };
 
 const videosGetBy_Id = async(req=request, res=response) =>{
@@ -35,15 +43,15 @@ const videosGetByTitulo = async(req=request, res=response)=>{
     const {busqueda} = req.body;
 
     try{
-        const video = await videoModel.find({titulo:{ $regex: busqueda, $options: 'i' }});
+        const videos = await videoModel.find({titulo:{ $regex: busqueda, $options: 'i' }});
 
-        if (!video){
+        if (!videos){
             return res.status(404).json({ok:false,
                 msg: 'No se encontro ningun video'
-            })
+            });
         }
 
-        res.json({ok:true, data: video});
+        res.json({ok:true, data: videos});
     }catch (e){
         console.log(e);
         res.status(500).json({ok:false,
@@ -57,15 +65,15 @@ const videosGetByArtista = async (req=request, res=response)=>{
     const {busqueda} = req.body;
 
     try{
-        const video = await videoModel.find({artista:{ $regex: busqueda, $options: 'i' }});
+        const videos = await videoModel.find({artista:{ $regex: busqueda, $options: 'i' }});
 
-        if (!video){
+        if (!videos){
             return res.status(404).json({ok:false,
                 msg: 'No se encontro ningun video con el artista'
-            })
+            });
         }
 
-        res.json({ok:true, data: video});
+        res.json({ok:true, data: videos});
     }catch (e){
         console.log(e);
         res.status(500).json({ok:false,

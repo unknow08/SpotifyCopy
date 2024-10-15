@@ -7,6 +7,7 @@ import SongItem from './SongItem'
 
 const DisplayHome = () =>{
   const [videos, setVideos] = useState([]);
+  const [albums, setAlbums] = useState([]);
 
   const fetchVideos = async () => {
     try {
@@ -18,12 +19,23 @@ const DisplayHome = () =>{
     }
   };
 
+  const fetchAlbums = async()=>{
+    try {
+      const response = await fetch('http://localhost:8080/api/albums'); // Cambia la URL según tu backend
+      const data = await response.json();
+      setAlbums(data.data);  // Accede a 'data' desde el JSON recibido
+    } catch (error) {
+      console.error('Error fetching Albums:', error);
+    }
+  }
+
   // useEffect para cargar los videos cuando el componente se monta
   useEffect(() => {
     fetchVideos();
+    fetchAlbums();
   }, []);
 
-  console.log(videos);
+  //console.log(videos);
 
   return(
     <> 
@@ -31,7 +43,7 @@ const DisplayHome = () =>{
        <div className='mb-4'>
         <h1 className='my-5 font-bold text-2xl'>Featured Charts</h1>
         <div className='flex overflow-auto'>
-            {albumsData.map((item, index)=>(<AlbumItem key={index} name={item.name} desc={item.desc} id={item.id} image={item.image} />))}
+            {albums.map((album, index)=>(<AlbumItem key={index} name={album.nombre} desc={album.descripcion} id={album._id} image={album.img} />))}
         </div>
        </div>
        <div className='mb-4'>

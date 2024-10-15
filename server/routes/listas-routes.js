@@ -2,12 +2,15 @@ const {Router} = require('express');
 const router = Router();
 
 const{
-    listasGetByAlbum,
+    listasGetAll,
+    listasGetByAlbum_Id,
     listasAddVideo,
     listasDeleteVideo
 }= require('../controllers/listas-controller.js');
 
-router.get('/:album_id',listasGetByAlbum);
+router.get('/',listasGetAll);
+
+router.get('/:album_id',listasGetByAlbum_Id);
 
 router.post('/',listasAddVideo);
 

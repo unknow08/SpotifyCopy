@@ -4,28 +4,35 @@ const listaModel = require('../models/listas-model.js');
 
 
 const albumsGetAll = async (req=request, res=response)=>{
-    const albums = await albumModel.find();
+    try{
+        const albums = await albumModel.find();
 
-    res.json({
-        data:albums
-    });
+        res.json({ok:true,
+            data:albums
+        });
+    }catch(e){
+        console.log(e);
+        res.status(500).json({ok:false,
+            msg:"Error, contacte al administrador"
+        })
+    }
 }
 
 const albumsGetBy_Id = async (req=request,res=response)=>{
     const {id} = req.params;
 
     
-        const album = await albumModel.findOne({_id:id})
+    const album = await albumModel.findOne({_id:id})
 
-        if(!album){
-            return res.status(404).json({ok:false,
-                msg: 'No se encontro el album'
-            })
-        }
+    if(!album){
+        return res.status(404).json({ok:false,
+            msg: 'No se encontro el album'
+        })
+    }
 
-        res.json({ok:true,
-            data: album
-        });
+    res.json({ok:true,
+        data: album
+    });
 }
 
 const albumsGetByName = async (req=request,res=response)=>{
@@ -66,7 +73,7 @@ const albumsPost = async (req=request,res=response)=>{
 
         await newAlbum.save();
         
-        const lista = new listaModel({album_id:newAlbum._id});
+        const lista = new listaModel({album_nombre: newAlbum.nombre, album_id:newAlbum._id});
 
         await lista.save();
 
