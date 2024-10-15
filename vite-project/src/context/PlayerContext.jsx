@@ -72,7 +72,7 @@ const PlayerContextProvider = (props) => {
     )
 }
 ------------------------------------------------------------------------------------------------------------------
-const PlayerContextProvider = ({ children }) => {
+//const PlayerContextProvider = ({ children }) => {
   const [track, setTrack] = useState({
     title: 'Canción 1',
     file: '/assets/song1.mp3',
@@ -89,7 +89,7 @@ const PlayerContextProvider = ({ children }) => {
       {children}
     </PlayerContext.Provider>
   );
-};
+//};
 
 changeTrack({
   title: 'Canción 2',
