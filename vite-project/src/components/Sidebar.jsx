@@ -9,12 +9,16 @@ const Sidebar = () =>{
     const obtenerAlbum = async()=>{
         try {
             const response = await fetch('http://localhost:8080/api/albums/buscar/nombre',{
-                body:{"nombre":"favoritos"}
+                method: "POST",
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({nombre:'favoritos'})
             }); // Cambia la URL según tu backend
             const data = await response.json();
             setAlbumFavoritos(data.data);  // Accede a 'data' desde el JSON recibido
           } catch (error) {
-            console.error('Error fetching Albums:', error);
+            console.error('Error fetching Album:', error);
           }
     }
 

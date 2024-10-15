@@ -15,9 +15,9 @@ router.get('/',videosGetAll);
 
 router.get('/:id',videosGetBy_Id);
 
-router.get('/buscar/titulo',videosGetByTitulo);
+router.post('/buscar/titulo',videosGetByTitulo);
 
-router.get('/buscar/artista',videosGetByArtista);
+router.post('/buscar/artista',videosGetByArtista);
 
 router.post('/new',videosPost);
 

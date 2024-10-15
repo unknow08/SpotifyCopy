@@ -14,7 +14,7 @@ router.get('/',albumsGetAll);
 
 router.get('/:id',albumsGetBy_Id);
 
-router.get('/buscar/nombre',albumsGetByName);
+router.post('/buscar/nombre',albumsGetByName);
 
 router.post('/new',albumsPost);
 
