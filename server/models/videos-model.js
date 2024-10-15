@@ -6,7 +6,7 @@ const videoSchema = new mongoose.Schema({
         require:true
     },
     artista:{
-        type:String,
+        type:Array,
         require:true
     },
     genero:{
