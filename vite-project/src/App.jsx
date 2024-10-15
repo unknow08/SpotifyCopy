@@ -13,6 +13,7 @@ const App = () => {
         <Sidebar />
         <Display />
         {/* Reproducción de video con iframe */}
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/Yq6qkq_TWAM?si=Rm-EPGcuk1tFpSVh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         <div className='w-full h-full'>
           <iframe
             width="100%"
