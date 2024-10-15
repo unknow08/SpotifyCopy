@@ -1,7 +1,32 @@
-import React from 'react'
+import React, {useEffect,useState} from 'react'
 import { assets } from '../assets/assets'
+import { useNavigate } from 'react-router-dom'
 
 const Sidebar = () =>{
+    const [AlbumFavoritos,setAlbumFavoritos]=useState([]);
+    const navigate=useNavigate();
+
+    const obtenerAlbum = async()=>{
+        try {
+            const response = await fetch('http://localhost:8080/api/albums/buscar/nombre',{
+                body:{"nombre":"favoritos"}
+            }); // Cambia la URL según tu backend
+            const data = await response.json();
+            setAlbumFavoritos(data.data);  // Accede a 'data' desde el JSON recibido
+          } catch (error) {
+            console.error('Error fetching Albums:', error);
+          }
+    }
+
+    const cargarFavoritos= async()=>{
+        navigate(`/album/${AlbumFavoritos._id}`)
+        
+    }
+
+    useEffect(()=>{
+        obtenerAlbum();
+    },[])
+
   return(
     <div className='w-[25%] h-full p-2 flex-col gap-2 text-white hidden lg:flex'> 
         <div className='bg-[#121212] h-[15%] rounded flex flex-col justify-around'> 
@@ -21,10 +46,10 @@ const Sidebar = () =>{
             <div className='p-4 flex items-center justify-between' >
                 <div className='flex items-center gap-3'>
                     <img className=' w-8' src={assets.stack_icon} alt="" />
-                    <p className='font-semibold'> Your Library </p>
+                    <p className='font-semibold ' > Your ary </p>
                 </div>
                 <div className='flex items-center gap-3'>
-                    <img className='w-5' src={assets.arrow_icon} alt="" />
+                    <img onClick={()=>cargarFavoritos()} className='w-5' src={assets.arrow_icon} alt="" />
                     <img className='w-5' src={assets.plus_icon} alt="" />
 
                 </div>
