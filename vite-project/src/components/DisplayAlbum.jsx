@@ -23,7 +23,7 @@ const DisplayAlbum = () => {
         try {
             const response = await fetch('http://localhost:8080/api/listas/'+id);
             const data = await response.json();
-            console.log(data);
+            //console.log(data);
             fetchVideosLista(data.data.videos_id);  // Accede a 'data' desde el JSON recibido
           } catch (error) {
             console.error('Error fetching Album:', error);

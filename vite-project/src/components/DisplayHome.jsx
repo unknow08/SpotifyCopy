@@ -13,6 +13,7 @@ const DisplayHome = () =>{
     try {
       const response = await fetch('http://localhost:8080/api/videos'); // Cambia la URL según tu backend
       const data = await response.json();
+      //console.log(data.data);
       setVideos(data.data);  // Accede a 'data' desde el JSON recibido
     } catch (error) {
       console.error('Error fetching videos:', error);
