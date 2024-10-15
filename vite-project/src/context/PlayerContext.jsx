@@ -71,7 +71,7 @@ const PlayerContextProvider = (props) => {
         </PlayerContext.Provider>
     )
 }
-
+------------------------------------------------------------------------------------------------------------------
 const PlayerContextProvider = ({ children }) => {
   const [track, setTrack] = useState({
     title: 'Canción 1',
@@ -90,6 +90,12 @@ const PlayerContextProvider = ({ children }) => {
     </PlayerContext.Provider>
   );
 };
+
+changeTrack({
+  title: 'Canción 2',
+  file: '/assets/song2.mp3',
+  videoUrl: 'https://www.youtube.com/embed/VIDEO_ID_2'  // Nuevo video
+});
 
 
 export default PlayerContextProvider;
