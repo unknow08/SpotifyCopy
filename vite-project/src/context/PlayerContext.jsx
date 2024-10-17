@@ -71,31 +71,5 @@ const PlayerContextProvider = (props) => {
         </PlayerContext.Provider>
     )
 }
-------------------------------------------------------------------------------------------------------------------
-//const PlayerContextProvider = ({ children }) => {
-  const [track, setTrack] = useState({
-    title: 'Canción 1',
-    file: '/assets/song1.mp3',
-    videoUrl: 'https://www.youtube.com/embed/VIDEO_ID_1'  // Enlace de YouTube
-  });
-  const audioRef = useRef(null);
-
-  const changeTrack = (newTrack) => {
-    setTrack(newTrack);
-  };
-
-  return (
-    <PlayerContext.Provider value={{ audioRef, track, changeTrack }}>
-      {children}
-    </PlayerContext.Provider>
-  );
-//};
-
-changeTrack({
-  title: 'Canción 2',
-  file: '/assets/song2.mp3',
-  videoUrl: 'https://www.youtube.com/embed/VIDEO_ID_2'  // Nuevo video
-});
-
 
 export default PlayerContextProvider;
