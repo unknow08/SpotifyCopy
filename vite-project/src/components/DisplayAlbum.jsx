@@ -4,16 +4,8 @@ import { useParams } from 'react-router-dom'
 import { albumsData, assets, songsData } from '../assets/assets';
 
 const DisplayAlbum = () => {
-    const { id } = useParams();  
-  // ------------------------------------------------------
-  
-  // Codigo don pepino
-    const albumData = albumsData[id];
-    const [videoUrl, setVideoUrl] = useState('');
-    const [artistInfo, setArtistInfo] = useState('');
-    let player;
-  //-------------------------------------------------------
-  
+
+    const { id } = useParams();
     const [album, setAlbum] = useState([]);
     const [videos, setVideos] = useState([]);
 
@@ -49,50 +41,11 @@ const DisplayAlbum = () => {
             console.error('Error fetching videos:', error);
         }
     }
-    
-    // Reproducir el video cuando se le da play a una canción
-    const onPlayerReady = (event) => {
-        document.querySelectorAll('.song').forEach(song => {
-            song.addEventListener('click', () => {
-                event.target.playVideo(); // Reproducir el video cuando se selecciona la canción
-            });
-        });
-    };
 
     useEffect(() => {
         fetchAlbums();
         fetchLista();
     }, []);
-  
-  // Obtener el URL del video desde la base de datos
-    useEffect(() => {
-        fetch(`/api/getVideoUrl/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                setVideoUrl(data.videoUrl);
-            });
-
-        // Obtener la información del cantante o grupo
-        fetch(`/api/getArtistInfo/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                setArtistInfo(data.artistInfo);
-            });
-    }, [id]);
-
-    // Cargar la API de YouTube cuando se carga la página
-    useEffect(() => {
-        window.onYouTubeIframeAPIReady = () => {
-            player = new window.YT.Player('yt-player', {
-                height: '500',
-                width: '505',
-                videoId: videoUrl.split('v=')[1],
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
-        };
-    }, [videoUrl]);
 
     return (
         <>
@@ -109,12 +62,12 @@ const DisplayAlbum = () => {
                             <p className="mt-1">
                                 <img className="inline-block w-5 mr-1" src={assets.spotify_logo} alt="" />
                                 <b>Spotify 2.0</b>
-                                • 1,000,000 likes • <b>50 canciones,</b> unas 2hr
+                                • 1,000,000 likes • <b>50 songs,</b> about 2hr
                             </p>
                         </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-4 mt-10 mb-4 pl-2 text-[#a7a7a7]">
-                        <p><b className="mr-4">#</b>Titulo</p>
+                        <p><b className="mr-4">#</b>Title</p>
                         <div></div>
                         <div></div>
                         <img className="m-auto w-4" src={assets.clock_icon} alt="" />
@@ -130,19 +83,21 @@ const DisplayAlbum = () => {
                                 </div>
                                 <p className="text-[15px] text-right w-[3rem]">{video.duracion}</p> {/* Duración alineada a la derecha */}
                             </div>
+
                         ))
                     }
                 </div>
 
                 {/* Segunda Columna - Nueva Información */}
                 <div className="w-full md:w-1/2 bg-gray-800 p-4 rounded">
-                    <div id="yt-player"></div> {/* Aquí se carga el video de YouTube */}
+                    {/* Aquí agregas tu nueva información */}
                     <h3 className="text-3xl font-bold mb-4">Más Información</h3>
-                    <p>{artistInfo}</p> {/* Aquí se muestra la información del artista */}
+                    <p>Aquí puedes agregar otra columna con detalles adicionales o información relacionada.</p>
                 </div>
             </div>
-        </>
-    );
-};
 
-export default DisplayAlbum;
+        </>
+    )
+}
+
+export default DisplayAlbum
