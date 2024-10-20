@@ -50,6 +50,7 @@ const DisplayHome = () => {
       <Navbar />
       <SearchBar onSearch={handleSearch} /> {/* La barrita de búsqueda */}
       <div className='mb-4'>
+        <div className='flex flex-wrap justify-start'>
         {searchResults.length > 0 ? (
           <>
             {categories.includes('Álbumes') && (
@@ -76,21 +77,17 @@ const DisplayHome = () => {
         ) : (
           // Mostrar contenido predeterminado si no hay resultados de búsqueda
           <>
-            <h1 className='my-5 font-bold text-2xl'>Featured Charts</h1>
-            {/* Renderizar álbumes destacados */}
-            <div className='flex overflow-auto'>
-              {albumsData.map((album) => (
-                <AlbumItem key={album.id} name={album.name} desc={album.desc} id={album.id} image={album.image} />
-              ))}
-            </div>
-            <h1 className='my-5 font-bold text-2xl'>Today's Biggest Hits</h1>
-            {/* Renderizar canciones más chimba del momento */}
-            <div className='flex overflow-auto'>
-              {songsData.map((song) => (
-                <SongItem key={song.id} name={song.name} desc={song.desc} id={song.id} image={song.image} />
-              ))}
-            </div>
-          </>
+              <h1 className='my-5 font-bold text-2xl'>Featured Charts</h1>
+              <div className='flex overflow-auto'>
+                {albums.map((album, index) => (<AlbumItem key={index} name={album.nombre} desc={album.descripcion} id={album._id} image={album.img} />))}
+              </div>
+              <div className='mb-4'>
+                <h1 className='my-5 font-bold text-2xl'>Today's biggest hits</h1>
+                <div className='flex overflow-auto'>
+                  {videos.map((video, index) => (<SongItem key={index} name={video.titulo} desc={video.descripcion} image={video.img} />))}
+                </div>
+              </div>
+            </>
         )}
       </div>
     </>
