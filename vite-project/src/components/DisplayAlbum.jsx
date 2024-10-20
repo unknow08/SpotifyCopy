@@ -113,7 +113,14 @@ const DisplayAlbum = () => {
 
         // Verificar si la API de YouTube está lista y hay un video ID actual
         if (window.YT && currentVideoId) {
-            createPlayer();
+            if (player) {
+                // Reutilizamos el reproductor si ya está creado
+                player.loadVideoById(currentVideoId);
+                console.log('Cambiando a video ID:', currentVideoId);
+            } else {
+                // Crear el reproductor si aún no existe
+                createPlayer();
+            }
         }
     }, [currentVideoId]);
 
