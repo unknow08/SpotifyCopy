@@ -78,13 +78,17 @@ const DisplayHome = () => {
       <SearchBar onSearch={handleSearch} /> {/* Añadir SearchBar aquí */}
       <div className='mb-4'>
         {category && <h1 className='my-5 font-bold text-2xl'>{category}</h1>} {/* Mostrar categoría */}
-        <div className='flex flex-col'>
+        <div className='flex flex-wrap justify-start'>
           {searchResults.length > 0 ? (
             searchResults.map((item, index) =>
-              item.hasOwnProperty('image') ? (
-                <AlbumItem key={index} name={item.npmbre} desc={item.descripcion} id={item.id} image={item.img} />
+              item.hasOwnProperty('url') ? (
+                 <div key={index} className="w-48 m-2 "> {/* Clase w-48 para el ancho y m-2 para el margen */}
+                   <SongItem name={item.titulo} desc={item.descripcion} id={item._id} image={item.img} />
+                 </div>
               ) : (
-                <SongItem key={index} name={item.titulo} desc={item.descripcion} id={item.id} image={item.img} />
+                <div key={index} className="w-48 m-2"> {/* Envolver el SongItem en un div también */}
+                  <AlbumItem name={item.nombre} desc={item.descripcion} id={item._id} image={item.img} />
+                </div>
               )
             )
           ) : (
