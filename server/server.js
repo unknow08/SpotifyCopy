@@ -5,11 +5,12 @@ const server = new Server();
 server.listen();
 
 /*
-const videoModel=require('./models/videos-model.js');
+const {artistasData} = require('./testData.js');
+const artistaModel=require('./models/artistas-model.js');
 
 async function insertarCanciones(){
     try{
-        await videoModel.insertMany(videoData);
+        await artistaModel.insertMany(artistasData);
     }catch(e){
         console.log(e);
     }

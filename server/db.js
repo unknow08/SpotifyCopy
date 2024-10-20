@@ -12,7 +12,8 @@ class Server{
         this.path={
             videos: '/api/videos',
             albums: '/api/albums',
-            listas: '/api/listas'
+            listas: '/api/listas',
+            artistas: '/api/artistas'
         }
 
         this.app.use(cors());
@@ -37,6 +38,7 @@ class Server{
         this.app.use(this.path.videos,require('./routes/videos-routes.js'));
         this.app.use(this.path.albums,require('./routes/albums-routes.js'));
         this.app.use(this.path.listas,require('./routes/listas-routes.js'));
+        this.app.use(this.path.artistas,require('./routes/artistas-routes.js'));
     }
 
     listen(){
