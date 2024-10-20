@@ -89,28 +89,38 @@ const DisplayHome = () => {
           {searchResults.length > 0 ? (
             <>
               {categories.includes('Álbumes') && (
-                <>
-                  <h1 className='my-5 font-bold text-2xl'>Álbumes</h1>
-                  {searchResults
-                    .filter(item => item.type === 'album')
-                    .map((item, index) => (
-                      <div key={index} className="w-48 m-2"> {/* Envolver el SongItem en un div también */}
-                        <AlbumItem name={item.nombre} desc={item.descripcion} id={item._id} image={item.img} />
-                      </div>
-                    ))}
-                </>
+                <div className='flex flex-wrap justify-star'>
+                  <>
+                    <div className='w-full'>
+                      <h1 className='my-5 font-bold text-2xl'>Álbumes</h1>
+                    </div>
+
+                    {searchResults
+                      .filter(item => item.type === 'album')
+                      .map((item, index) => (
+                        <div key={index} className="w-48 m-2"> {/* Envolver el SongItem en un div también */}
+                          <AlbumItem name={item.nombre} desc={item.descripcion} id={item._id} image={item.img} />
+                        </div>
+                      ))}
+                  </>
+                </div>
               )}
               {categories.includes('Canciones') && (
-                <>
-                  <h1 className='my-5 font-bold text-2xl'>Canciones</h1>
-                  {searchResults
-                    .filter(item => item.type === 'song')
-                    .map((item, index) => (
-                      <div key={index} className="w-48 m-2 "> {/* Clase w-48 para el ancho y m-2 para el margen */}
-                        <SongItem name={item.titulo} desc={item.descripcion} id={item._id} image={item.img} />
-                      </div>
-                    ))}
-                </>
+                <div className='flex flex-wrap justify-star'>
+                  <>
+                    <div className='w-full'>
+                      <h1 className='my-5 font-bold text-2xl'>Canciones</h1>
+                    </div>
+                    
+                    {searchResults
+                      .filter(item => item.type === 'song')
+                      .map((item, index) => (
+                        <div key={index} className="w-48 m-2 "> {/* Clase w-48 para el ancho y m-2 para el margen */}
+                          <SongItem name={item.titulo} desc={item.descripcion} id={item._id} image={item.img} />
+                        </div>
+                      ))}
+                  </>
+                </div>
               )}
             </>
           ) : (
