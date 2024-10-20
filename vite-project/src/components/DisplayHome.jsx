@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from './Navbar'
 import { albumsData, songsData } from '../assets/assets'
 import AlbumItem from './AlbumItem'
@@ -12,7 +12,7 @@ const DisplayHome = () => {
   // Datos BD -----------------------
   const [videos, setVideos] = useState([]);
   const [albums, setAlbums] = useState([]);
-  
+
   // Metodos SearchBar---------------
   const handleSearch = (query) => {
     if (!query) {
@@ -21,13 +21,13 @@ const DisplayHome = () => {
       return;
     }
 
-    const filteredAlbums = albumsData.filter(album =>
-      album.name.toLowerCase().includes(query.toLowerCase())
+    const filteredAlbums = albums.filter(album =>
+      album.nombre.toLowerCase().includes(query.toLowerCase())
     );
 
-    const filteredSongs = songsData.filter(song =>
-      song.name.toLowerCase().includes(query.toLowerCase()) || 
-      song.desc.toLowerCase().includes(query.toLowerCase())
+    const filteredSongs = videos.filter(song =>
+      song.titulo.toLowerCase().includes(query.toLowerCase()) ||
+      song.descripcion.toLowerCase().includes(query.toLowerCase())
     );
 
     if (filteredAlbums.length > 0) {
@@ -54,7 +54,7 @@ const DisplayHome = () => {
     }
   };
 
-  const fetchAlbums = async()=>{
+  const fetchAlbums = async () => {
     try {
       const response = await fetch('http://localhost:8080/api/albums'); // Cambia la URL según tu backend
       const data = await response.json();
@@ -71,37 +71,39 @@ const DisplayHome = () => {
   }, []);
 
   //console.log(videos);
-  
+
   return (
-    <> 
+    <>
       <Navbar />
       <SearchBar onSearch={handleSearch} /> {/* Añadir SearchBar aquí */}
       <div className='mb-4'>
         {category && <h1 className='my-5 font-bold text-2xl'>{category}</h1>} {/* Mostrar categoría */}
         <div className='flex flex-col'>
           {searchResults.length > 0 ? (
-            searchResults.map((item, index) => 
+            searchResults.map((item, index) =>
               item.hasOwnProperty('image') ? (
-                <AlbumItem key={index} name={item.name} desc={item.desc} id={item.id} image={item.image} />
+                <AlbumItem key={index} name={item.npmbre} desc={item.descripcion} id={item.id} image={item.img} />
               ) : (
-                <SongItem key={index} name={item.name} desc={item.desc} id={item.id} image={item.image} />
-              ) 
+                <SongItem key={index} name={item.titulo} desc={item.descripcion} id={item.id} image={item.img} />
+              )
             )
           ) : (
             // Mostrar contenido predeterminado si no hay resultados de búsqueda
             <>
               <h1 className='my-5 font-bold text-2xl'>Featured Charts</h1>
               <div className='flex overflow-auto'>
-                {albums.map((album, index)=>(<AlbumItem key={index} name={album.nombre} desc={album.descripcion} id={album._id} image={album.img} />))}
+                {albums.map((album, index) => (<AlbumItem key={index} name={album.nombre} desc={album.descripcion} id={album._id} image={album.img} />))}
               </div>
               <div className='mb-4'>
                 <h1 className='my-5 font-bold text-2xl'>Today's biggest hits</h1>
                 <div className='flex overflow-auto'>
-                   {videos.map((video, index)=>(<SongItem key={index} name={video.titulo} desc={video.descripcion} image={video.img}/>))}
+                  {videos.map((video, index) => (<SongItem key={index} name={video.titulo} desc={video.descripcion} image={video.img} />))}
                 </div>
               </div>
             </>
           )}
+        </div>
+      </div>
     </>
   );
 };
