@@ -82,7 +82,7 @@ const DisplayHome = () => {
           {searchResults.length > 0 ? (
             searchResults.map((item, index) =>
               item.hasOwnProperty('image') ? (
-                <AlbumItem key={index} name={item.npmbre} desc={item.descripcion} id={item.id} image={item.img} />
+                <AlbumItem key={index} name={item.nombre} desc={item.descripcion} id={item.id} image={item.img} />
               ) : (
                 <SongItem key={index} name={item.titulo} desc={item.descripcion} id={item.id} image={item.img} />
               )
