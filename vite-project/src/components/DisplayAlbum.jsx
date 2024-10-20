@@ -6,9 +6,41 @@ import { albumsData, assets, songsData } from '../assets/assets';
 const DisplayAlbum = () => {
 
     const { id } = useParams();
+  
+  // Reproductor -------------------------------------
+    const albumData = albumsData[id];
+    const [currentVideoId, setCurrentVideoId] = useState(''); // Estado para el ID del video actual
+    const [player, setPlayer] = useState(null);
+    const [isPlayerVisible, setIsPlayerVisible] = useState(false);
+  // Album y videos DB ------------------------------------
     const [album, setAlbum] = useState([]);
     const [videos, setVideos] = useState([]);
+  
+  // Metodos reproductor
+  const onPlayerError = (event) => {
+        console.error('Error de YouTube Player:', event.data);
+        alert('Error al intentar reproducir el video. Código de error: ' + event.data);
+    };
 
+    const onPlayerReady = (event) => {
+        if (currentVideoId) {
+            event.target.loadVideoById(currentVideoId);
+            console.log('Reproduciendo video ID:', currentVideoId);
+        }
+    };
+
+    // Manejar el clic en la canción
+    const handleSongClick = (videoId) => {
+        console.log('Video ID al hacer clic:', videoId); // Verifica que el ID se pase correctamente
+        if (videoId) {
+            setCurrentVideoId(videoId);
+            setIsPlayerVisible(true); // Hacer el reproductor visible
+        } else {
+            console.error('El ID del video no está definido.'); // Esto indica que el videoId está vacío
+        }
+    };
+
+  // Metodos datos BD --------------------------------------
     const fetchAlbums = async () => {
         try {
             const response = await fetch('http://localhost:8080/api/albums/' + id);
@@ -42,16 +74,53 @@ const DisplayAlbum = () => {
         }
     }
 
+    // Fetch DB
     useEffect(() => {
         fetchAlbums();
         fetchLista();
     }, []);
+  
+  // Fetch yotube (reproductor)
+  // Cargar la API de YouTube
+    useEffect(() => {
+        const loadYouTubeAPI = () => {
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            document.body.appendChild(tag);
+        };
+
+        // Cargar la API solo una vez
+        if (!window.YT) {
+            loadYouTubeAPI();
+        }
+
+        // Crear el reproductor cuando la API esté lista
+        const createPlayer = () => {
+            if (currentVideoId) {
+                const ytPlayer = new window.YT.Player('yt-player', {
+                    height: '500',
+                    width: '505',
+                    videoId: currentVideoId,
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onError': onPlayerError,
+                    },
+                });
+                setPlayer(ytPlayer);
+                console.log('Reproductor de YouTube creado:', ytPlayer);
+            }
+        };
+
+        // Verificar si la API de YouTube está lista y hay un video ID actual
+        if (window.YT && currentVideoId) {
+            createPlayer();
+        }
+    }, [currentVideoId]);
 
     return (
         <>
             <Navbar />
             <div className="flex flex-col md:flex-row gap-8 mt-10">
-                {/* Primera Columna - Contenido Actual */}
                 <div className="w-full md:w-1/2">
                     <div className="mt-10 flex gap-8 flex-col">
                         <img className="w-48 rounded" src={album.img} alt="" />
@@ -75,7 +144,7 @@ const DisplayAlbum = () => {
                     <hr />
                     {
                         videos.map((video, index) => (
-                            <div key={index} className="flex justify-between items-center p-2 text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer w-full">
+                            <div key={index} className="flex justify-between items-center p-2 text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer w-full" onClick={() => handleSongClick(item.videoId)>
                                 <div className="flex items-center text-white">
                                     <b className="mr-4 text-[#a7a7a7]">{index + 1}</b>
                                     <img className="inline w-10 mr-5" src={video.img} alt="" />
@@ -87,13 +156,13 @@ const DisplayAlbum = () => {
                         ))
                     }
                 </div>
-
-                {/* Segunda Columna - Nueva Información */}
-                <div className="w-full md:w-1/2 bg-gray-800 p-4 rounded">
-                    {/* Aquí agregas tu nueva información */}
-                    <h3 className="text-3xl font-bold mb-4">Más Información</h3>
-                    <p>Aquí puedes agregar otra columna con detalles adicionales o información relacionada.</p>
-                </div>
+                {isPlayerVisible && (
+                    <div className="w-full md:w-1/2 bg-gray-800 p-4 rounded">
+                        <div id="yt-player"></div> {/* Contenedor para el reproductor de YouTube */}
+                        <h3 className="text-3xl font-bold mb-4">Más Información</h3>
+                        <p>Información adicional sobre el álbum o artista.</p>
+                    </div>
+                )}
             </div>
 
         </>
