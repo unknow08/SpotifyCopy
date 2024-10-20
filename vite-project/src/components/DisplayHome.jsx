@@ -3,12 +3,46 @@ import Navbar from './Navbar'
 import { albumsData, songsData } from '../assets/assets'
 import AlbumItem from './AlbumItem'
 import SongItem from './SongItem'
+import SearchBar from './SearchBar';
 
-
-const DisplayHome = () =>{
+const DisplayHome = () => {
+  // SearchBar ----------------------
+  const [searchResults, setSearchResults] = useState([]);
+  const [category, setCategory] = useState('');
+  // Datos BD -----------------------
   const [videos, setVideos] = useState([]);
   const [albums, setAlbums] = useState([]);
+  
+  // Metodos SearchBar---------------
+  const handleSearch = (query) => {
+    if (!query) {
+      setSearchResults([]);
+      setCategory('');
+      return;
+    }
 
+    const filteredAlbums = albumsData.filter(album =>
+      album.name.toLowerCase().includes(query.toLowerCase())
+    );
+
+    const filteredSongs = songsData.filter(song =>
+      song.name.toLowerCase().includes(query.toLowerCase()) || 
+      song.desc.toLowerCase().includes(query.toLowerCase())
+    );
+
+    if (filteredAlbums.length > 0) {
+      setSearchResults(filteredAlbums);
+      setCategory('Álbumes');
+    } else if (filteredSongs.length > 0) {
+      setSearchResults(filteredSongs);
+      setCategory('Canciones');
+    } else {
+      setSearchResults([]);
+      setCategory('No se encontraron resultados');
+    }
+  };
+
+  // Metdos Datos BD ---------------------------
   const fetchVideos = async () => {
     try {
       const response = await fetch('http://localhost:8080/api/videos'); // Cambia la URL según tu backend
@@ -37,24 +71,39 @@ const DisplayHome = () =>{
   }, []);
 
   //console.log(videos);
-
-  return(
+  
+  return (
     <> 
-       <Navbar />
-       <div className='mb-4'>
-        <h1 className='my-5 font-bold text-2xl'>Featured Charts</h1>
-        <div className='flex overflow-auto'>
-            {albums.map((album, index)=>(<AlbumItem key={index} name={album.nombre} desc={album.descripcion} id={album._id} image={album.img} />))}
-        </div>
-       </div>
-       <div className='mb-4'>
-        <h1 className='my-5 font-bold text-2xl'>Today's biggest hits</h1>
-        <div className='flex overflow-auto'>
-            {videos.map((video, index)=>(<SongItem key={index} name={video.titulo} desc={video.descripcion} image={video.img}/>))}
-        </div>
-       </div>
+      <Navbar />
+      <SearchBar onSearch={handleSearch} /> {/* Añadir SearchBar aquí */}
+      <div className='mb-4'>
+        {category && <h1 className='my-5 font-bold text-2xl'>{category}</h1>} {/* Mostrar categoría */}
+        <div className='flex flex-col'>
+          {searchResults.length > 0 ? (
+            searchResults.map((item, index) => 
+              item.hasOwnProperty('image') ? (
+                <AlbumItem key={index} name={item.name} desc={item.desc} id={item.id} image={item.image} />
+              ) : (
+                <SongItem key={index} name={item.name} desc={item.desc} id={item.id} image={item.image} />
+              ) 
+            )
+          ) : (
+            // Mostrar contenido predeterminado si no hay resultados de búsqueda
+            <>
+              <h1 className='my-5 font-bold text-2xl'>Featured Charts</h1>
+              <div className='flex overflow-auto'>
+                {albums.map((album, index)=>(<AlbumItem key={index} name={album.nombre} desc={album.descripcion} id={album._id} image={album.img} />))}
+              </div>
+              <div className='mb-4'>
+                <h1 className='my-5 font-bold text-2xl'>Today's biggest hits</h1>
+                <div className='flex overflow-auto'>
+                   {videos.map((video, index)=>(<SongItem key={index} name={video.titulo} desc={video.descripcion} image={video.img}/>))}
+                </div>
+              </div>
+            </>
+          )}
     </>
-  )
-}
+  );
+};
 
-export default DisplayHome
+export default DisplayHome;
