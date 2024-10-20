@@ -1,59 +1,78 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { useParams } from 'react-router-dom';
-import { albumsData, songsData, assets } from '../assets/assets';
-
+import { albumsData, assets } from '../assets/assets';
+import { songsData } from '../assets/assets';
 const DisplayAlbum = () => {
     const { id } = useParams();
     const albumData = albumsData[id];
-    const [videoUrl, setVideoUrl] = useState('');
-    const [artistInfo, setArtistInfo] = useState('');
-    let player;
+    const [currentVideoId, setCurrentVideoId] = useState(''); // Estado para el ID del video actual
+    const [player, setPlayer] = useState(null);
+    const [isPlayerVisible, setIsPlayerVisible] = useState(false);
 
-    // Obtener el URL del video desde la base de datos
+    // Cargar la API de YouTube
     useEffect(() => {
-        fetch(`/api/getVideoUrl/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                setVideoUrl(data.videoUrl);
-            });
-
-        // Obtener la información del cantante o grupo
-        fetch(`/api/getArtistInfo/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                setArtistInfo(data.artistInfo);
-            });
-    }, [id]);
-
-    // Cargar la API de YouTube cuando se carga la página
-    useEffect(() => {
-        window.onYouTubeIframeAPIReady = () => {
-            player = new window.YT.Player('yt-player', {
-                height: '500',
-                width: '505',
-                videoId: videoUrl.split('v=')[1],
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
+        const loadYouTubeAPI = () => {
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            document.body.appendChild(tag);
         };
-    }, [videoUrl]);
 
-    // Reproducir el video cuando se le da play a una canción
+        // Cargar la API solo una vez
+        if (!window.YT) {
+            loadYouTubeAPI();
+        }
+
+        // Crear el reproductor cuando la API esté lista
+        const createPlayer = () => {
+            if (currentVideoId) {
+                const ytPlayer = new window.YT.Player('yt-player', {
+                    height: '500',
+                    width: '505',
+                    videoId: currentVideoId,
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onError': onPlayerError,
+                    },
+                });
+                setPlayer(ytPlayer);
+                console.log('Reproductor de YouTube creado:', ytPlayer);
+            }
+        };
+
+        // Verificar si la API de YouTube está lista y hay un video ID actual
+        if (window.YT && currentVideoId) {
+            createPlayer();
+        }
+    }, [currentVideoId]); // Solo se vuelve a crear el reproductor cuando el video ID cambia
+
+    const onPlayerError = (event) => {
+        console.error('Error de YouTube Player:', event.data);
+        alert('Error al intentar reproducir el video. Código de error: ' + event.data);
+    };
+
     const onPlayerReady = (event) => {
-        document.querySelectorAll('.song').forEach(song => {
-            song.addEventListener('click', () => {
-                event.target.playVideo(); // Reproducir el video cuando se selecciona la canción
-            });
-        });
+        if (currentVideoId) {
+            event.target.loadVideoById(currentVideoId);
+            console.log('Reproduciendo video ID:', currentVideoId);
+        }
+    };
+
+    // Manejar el clic en la canción
+    const handleSongClick = (videoId) => {
+        console.log('Video ID al hacer clic:', videoId); // Verifica que el ID se pase correctamente
+        if (videoId) {
+            setCurrentVideoId(videoId);
+            setIsPlayerVisible(true); // Hacer el reproductor visible
+        } else {
+            console.error('El ID del video no está definido.'); // Esto indica que el videoId está vacío
+        }
     };
 
     return (
         <>
             <Navbar />
             <div className="flex flex-col md:flex-row gap-8 mt-10">
-                {/* Primera Columna - Contenido Actual */}
                 <div className="w-full md:w-1/2">
                     <div className="mt-10 flex gap-8 flex-col">
                         <img className="w-48 rounded" src={albumData.image} alt="" />
@@ -69,7 +88,7 @@ const DisplayAlbum = () => {
                         </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-4 mt-10 mb-4 pl-2 text-[#a7a7a7]">
-                        <p><b className="mr-4">#</b>Titulo</p>
+                        <p><b className="mr-4">#</b>Título</p>
                         <div></div>
                         <div></div>
                         <img className="m-auto w-4" src={assets.clock_icon} alt="" />
@@ -77,26 +96,26 @@ const DisplayAlbum = () => {
                     <hr />
                     {
                         songsData.map((item, index) => (
-                            <div key={index} className="song grid grid-cols-1 sm:grid-cols-4 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer">
-                                <div className="flex items-center text-white">
-                                    <b className="mr-4 text-[#a7a7a7]">{index + 1}</b>
-                                    <img className="inline w-10 mr-5" src={item.image} alt="" />
-                                    <p>{item.name}</p>
-                                </div>
-                                <p></p>
-                                <p className='sm:block'></p>
-                                <p className="text-[15px] text-center">{item.duration}</p>
+                            <div
+                                key={index}
+                                className="min-w-[180px] p-2 px-3 rounded cursor-pointer hover:bg-[#ffffff26]"
+                                onClick={() => handleSongClick(item.videoId)} // Asegúrate de que 'item.videoId' existe
+                            >
+                                <img className="rounded" src={item.image} alt="" />
+                                <p className="font-bold mt-2 mb-1">{item.name}</p>
+                                <p className="text-slate-200 text-sm">{item.desc}</p>
                             </div>
                         ))
                     }
                 </div>
 
-                {/* Segunda Columna - Nueva Información */}
-                <div className="w-full md:w-1/2 bg-gray-800 p-4 rounded">
-                    <div id="yt-player"></div> {/* Aquí se carga el video de YouTube */}
-                    <h3 className="text-3xl font-bold mb-4">Más Información</h3>
-                    <p>{artistInfo}</p> {/* Aquí se muestra la información del artista */}
-                </div>
+                {isPlayerVisible && (
+                    <div className="w-full md:w-1/2 bg-gray-800 p-4 rounded">
+                        <div id="yt-player"></div> {/* Contenedor para el reproductor de YouTube */}
+                        <h3 className="text-3xl font-bold mb-4">Más Información</h3>
+                        <p>Información adicional sobre el álbum o artista.</p>
+                    </div>
+                )}
             </div>
         </>
     );
