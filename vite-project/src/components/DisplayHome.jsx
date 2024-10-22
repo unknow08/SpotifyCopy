@@ -85,7 +85,7 @@ const DisplayHome = () => {
       <Navbar />
       <SearchBar onSearch={handleSearch} /> {/* La barrita de búsqueda */}
       <div className='mb-4'>
-        <div className='flex flex-wrap justify-start'>
+        <div className='justify-start'>
           {searchResults.length > 0 ? (
             <>
               {categories.includes('Álbumes') && (
