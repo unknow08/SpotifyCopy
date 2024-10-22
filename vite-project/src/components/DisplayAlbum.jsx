@@ -160,17 +160,39 @@ const DisplayAlbum = () => {
                                 <p className="text-[15px] text-right w-[3rem]">{video.duracion}</p> {/* Duración alineada a la derecha */}
                             </div>
 
-                ))
+                        ))
                     }
-            </div>
-            {isPlayerVisible && (
-                <div className="w-full md:w-1/2 bg-gray-800 p-4 rounded">
-                    <div id="yt-player"></div> {/* Contenedor para el reproductor de YouTube */}
-                    <h3 className="text-3xl font-bold mb-4">Más Información</h3>
-                    <p>Información adicional sobre el álbum o artista.</p>
                 </div>
-            )}
-        </div >
+                {isPlayerVisible && (
+                    <div className="w-full md:w-1/2 bg-gray-800 p-4 rounded">
+                        <div id="yt-player"></div> {/* Contenedor para el reproductor de YouTube */}
+                        
+
+                        <div className=" bg-[#242424] rounded mt-4 w-full">
+                            <figure className="relative w-full transition-all duration-300 cursor-pointer filter grayscale hover:grayscale-0">
+                                <a href="#">
+                                    <img className="rounded-lg" src="https://static01.nyt.com/images/2024/05/20/arts/18eilish-review-ESP-1/17eilish-review-mediumSquareAt3X.jpg" alt="image description"/>
+                                </a>
+                                <figcaption className="absolute px-4 text-lg text-white top-4">
+                                    <p className='font-bold'>Información sobre el artista</p>
+                                </figcaption>
+                            </figure>
+                            <div className="p-5">
+                                <h5 className="mb-2 text-xl font-bold tracking-tight text-white">Billie Eilish</h5> {/* Nombre del artista */}
+                                <p className="text-gray-400 text-sm mb-2">107,467,755 oyentes mensuales</p> {/* Oyentes mensuales */}
+                                <p className="mb-3 font-normal text-gray-400">Billie Eilish es una cantante y compositora estadounidense que alcanzó fama mundial con su sencillo 'Ocean Eyes'.</p> {/* Descripción */}
+                                <a href="#" className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-[#242424]  rounded-full hover:bg-green-600 focus:ring-4 ">
+                                    Seguir
+                                    <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                )}
+            </div >
 
         </>
     )
